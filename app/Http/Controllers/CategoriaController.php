@@ -15,17 +15,10 @@ class CategoriaController extends Controller
      */
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-        
-        if ($buscar==''){
-            $categorias = Categoria::orderBy('id', 'desc')->paginate(10);
-        }
-        else{
-            $categorias = Categoria::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'desc')->paginate(10);
-        }
+        $categorias = Categoria::select( 'id_categoria', 'nombre', 'descripcion', 'estado')
+        ->orderBy('id_categoria', 'desc')
+        ->where('estado','=',1)
+        ->paginate(1000);
         
 
         return [
@@ -56,11 +49,10 @@ class CategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $categoria = new Categoria();
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
-        $categoria->condicion = '1';
+        $categoria->estado = '1';
         $categoria->save();
     }
   
@@ -74,19 +66,17 @@ class CategoriaController extends Controller
      */
     public function update(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $categoria = Categoria::findOrFail($request->id);
+         $categoria = Categoria::findOrFail($request->id_categoria);
         $categoria->nombre = $request->nombre;
         $categoria->descripcion = $request->descripcion;
-        $categoria->condicion = '1';
         $categoria->save();
+        return ['categorias' => "Ok"];
     }
 
     public function desactivar(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $categoria = Categoria::findOrFail($request->id);
-        $categoria->condicion = '0';
+        $categoria = Categoria::findOrFail($request->id_categoria);
+        $categoria->estado = '0';
         $categoria->save();
     }
 

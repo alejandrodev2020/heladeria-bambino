@@ -107,7 +107,7 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="pages-account-settings-account.html" class="menu-link">
+            <a href="admin/categoria" class="menu-link">
               <div data-i18n="Account">Gestionar Categorias</div>
             </a>
           </li>
@@ -135,7 +135,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="pages-misc-under-maintenance.html" class="menu-link">
+            <a href="admin/productos" class="menu-link">
               <div data-i18n="Under Maintenance">Gestion de Productos</div>
             </a>
           </li>
@@ -192,6 +192,11 @@
           <li class="menu-item">
             <a href="forms-basic-inputs.html" class="menu-link">
               <div data-i18n="Basic Inputs">Gestion de Producción</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="admin/costos" class="menu-link">
+              <div data-i18n="Basic Inputs">Gestion de Costos</div>
             </a>
           </li>
           <li class="menu-item">

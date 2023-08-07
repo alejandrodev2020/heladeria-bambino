@@ -12,34 +12,12 @@ class CostosController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+        $activos = Costos::select('id_activos', 'nombres', 'cantidad', 'precio', 'estado')
+        ->orderBy('id_activos', 'desc')
+        ->where('estado','=',1)
+        ->paginate(1000);
 
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-  
-        if($criterio == 'limit')
-        {
-            $costos = Costos::join('categorias','articulos.idcategoria','=','categorias.id')
-            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-            ->where('articulos.stock', '<=','5')
-            ->orderBy('articulos.id', 'desc')->paginate(10);
 
-        }
-
-        else
-        {
-            if ($buscar==''){
-                $costos = Costos::join('producto','producto.id_producto','=','costos.id_producto')
-                ->select('id_costos', 'costos_operativos', 'costos_brutos', 'fecha', 'costos.estado', 'costos.id_producto','producto.nombre')
-                ->orderBy('costos.id_costos', 'desc')->paginate(10);
-            }
-            else{
-                $costos = Costos::join('categoria','insumo.id_categoria','=','categoria.id_categoria')
-                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion','insumo.id_almacen')
-                ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')
-                ->orderBy('articulos.id', 'desc')->paginate(10);
-            }
-        }
         return [
             'pagination' => [
                 'total'        => $costos->total(),

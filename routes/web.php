@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ActivoController;
+use App\Http\Controllers\CostosController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CategoriaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +39,22 @@ Route::post('/activo', [ActivoController::class, 'store']);
 Route::get('/activo', [ActivoController::class, 'index']);
 Route::put('/activo', [ActivoController::class, 'update']);
 Route::get('/activo-desactivar', [ActivoController::class, 'desactivar']);
+
+
+Route::get('/costos', [CostosController::class, 'index']);
+Route::post('/costos', [CostosController::class, 'store']);
+Route::put('/costos', [CostosController::class, 'update']);
+Route::get('/costos-desactivar', [CostosController::class, 'desactivar']);
+
+Route::get('/productos', [ProductoController::class, 'index']);
+Route::post('/productos', [ProductoController::class, 'store']);
+Route::put('/productos', [ProductoController::class, 'update']);
+Route::get('/productos-desactivar', [ProductoController::class, 'desactivar']);
+
+Route::get('/categoria', [CategoriaController::class, 'index']);
+Route::post('/categoria', [CategoriaController::class, 'store']);
+Route::put('/categoria', [CategoriaController::class, 'update']);
+Route::get('/categoria-desactivar', [CategoriaController::class, 'desactivar']);
 
 // Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/login', 'Auth\LoginController@login')->name('login');
@@ -73,6 +92,20 @@ Route::get('/admin/almacen', function () {
 Route::get('/admin/activos', function () {
     return view('views-admin.activos');
 });
+
+Route::get('/admin/costos', function () {
+    return view('views-admin.costos');
+});
+
+Route::get('/admin/productos', function () {
+    return view('views-admin.productos');
+});
+
+Route::get('/admin/categoria', function () {
+    return view('views-admin.categoria');
+});
+
+
 Route::get('/admin/insumos', function () {
     return view('views-admin.insumos');
 });

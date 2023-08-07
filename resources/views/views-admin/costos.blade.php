@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <script src="sweetalert2.all.min.js"></script>
-    <title>Categoria</title>
+    <title>Costos</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
     <meta name="description" content="" />
@@ -169,7 +169,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-10">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Gestion de categorias</h5>
+                          <h5 class="card-title text-primary">Gestion de Costos</h5>
                         </div>
                       </div>
                       <div class="col-sm-2 text-center text-sm-right">
@@ -187,7 +187,8 @@
                               <tr>
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Nombres</th>
-                                <th class="text-center">Descripcion</th>
+                                <th class="text-center">Cantidad</th>
+                                <th class="text-center">Precio</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                               </tr>
@@ -213,7 +214,7 @@
                 <form action="/activo" method="POST">
                    @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Crear Categoria</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Crear Activo</h5>
                   <button
                     type="button"
                     id="closeModalCreate"
@@ -231,10 +232,14 @@
                       <input type="text" id="nombres" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
                     </div>
                   </div>
-                  <div class="row">
+                  <div class="row g-2">
                     <div class="col mb-0">
-                      <label for="cantidad" class="form-label">Descripcion</label>
-                      <input type="text" id="cantidad" name="cantidad" class="form-control" placeholder="Ingresar Descripcion" />
+                      <label for="cantidad" class="form-label">Cantidad</label>
+                      <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Ingresar Cantidad" />
+                    </div>
+                    <div class="col mb-0">
+                      <label for="precio" class="form-label">Precio</label>
+                      <input type="number" id="precio" name="precio" class="form-control" placeholder="Ingresar Precio" />
                     </div>
                   </div>
                 </div>
@@ -277,8 +282,12 @@
                   </div>
                   <div class="row g-2">
                     <div class="col mb-0">
-                      <label for="cantidad" class="form-label">Descripcion</label>
-                      <input type="text" id="cantidad2" name="cantidad" class="form-control" placeholder="Ingresar descripcion" />
+                      <label for="cantidad" class="form-label">Cantidad</label>
+                      <input type="number" id="cantidad2" name="cantidad" class="form-control" placeholder="Ingresar Cantidad" />
+                    </div>
+                    <div class="col mb-0">
+                      <label for="precio" class="form-label">Precio</label>
+                      <input type="number" id="precio2" name="precio" class="form-control" placeholder="Ingresar Precio" />
                     </div>
                   </div>
                 </div>
@@ -302,23 +311,24 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: '/categoria',
+                      url: '/costos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.categorias.data;
+                        let list = response.activos.data;
                         listadoActivos = list;
                         let myarray2 = [];
 
                         for (let index = 0; index < list.length; index++) {
                           let element = list[index];
-                          let tmp = '<td>'+element.id_categoria+'</td>'
-                                   +'<td>'+element.nombre+'</td>'
-                                   +'<td>'+element.descripcion+'</td>'
+                          let tmp = '<td>'+element.id_activos+'</td>'
+                                   +'<td>'+element.nombres+'</td>'
+                                   +'<td>'+element.cantidad+'</td>'
+                                   +'<td>'+element.precio+'</td>'
                                    +'<td><span class="badge bg-label-primary me-1">Activo</span></td>'
-                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_categoria+')"></i>'
-                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_categoria+')"></i>'
+                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_activos+')"></i>'
+                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_activos+')"></i>'
                                    +'</td>';
 
 
@@ -341,17 +351,19 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: '/categoria',
+                      url: '/activo',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'nombre':document.getElementById("nombres").value, 
-                              'descripcion':document.getElementById("cantidad").value
+                              'nombres':document.getElementById("nombres").value, 
+                              'cantidad':document.getElementById("cantidad").value,
+                              'precio':document.getElementById("precio").value
                             },
                       success: function(response)
                       {  
                         document.getElementById("nombres").value = '';
                         document.getElementById("cantidad").value = '';
+                        document.getElementById("precio").value = '';
                         listarActivos();
                         document.getElementById("closeModalCreate").click();
                         
@@ -363,22 +375,22 @@
                     });
             }
             function EditarActivo2(){
-                 
               $.ajax({
                       type: "PUT",
-                      url: '/categoria',
+                      url: '/activo',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'id_categoria':document.getElementById("id_activos2").value, 
-                              'nombre':document.getElementById("nombres2").value, 
-                              'descripcion':document.getElementById("cantidad2").value,
+                              'id_activos':document.getElementById("id_activos2").value, 
+                              'nombres':document.getElementById("nombres2").value, 
+                              'cantidad':document.getElementById("cantidad2").value,
+                              'precio':document.getElementById("precio2").value
                             },
                       success: function(response)
-                      { 
+                      {  
                         document.getElementById("nombres").value = '';
                         document.getElementById("cantidad").value = '';
-                   
+                        document.getElementById("precio").value = '';
                         listarActivos();
                         document.getElementById("closeModalEdit").click();
                         
@@ -404,7 +416,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: '/categoria-desactivar?id_categoria='+data,
+                      url: '/activo-desactivar?id_activos='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
@@ -428,10 +440,11 @@
             }
             function EditarActivo(id_activos){
               let tm = listadoActivos;
-                 let activoActual = tm.find((ele)=>ele.id_categoria === id_activos);
-                 document.getElementById("id_activos2").value = activoActual.id_categoria;
-                 document.getElementById("nombres2").value = activoActual.nombre;
-                 document.getElementById("cantidad2").value = activoActual.descripcion;
+                 let activoActual = tm.find((ele)=>ele.id_activos === id_activos);
+                 document.getElementById("id_activos2").value = activoActual.id_activos;
+                 document.getElementById("nombres2").value = activoActual.nombres;
+                 document.getElementById("cantidad2").value = activoActual.cantidad;
+                 document.getElementById("precio2").value = activoActual.precio;
                 document.getElementById("actualizarBtn").click();
             }
           </script>
