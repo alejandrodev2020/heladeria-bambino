@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ActivoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +22,21 @@ Route::get('/home', function () {
 
 Route::get('/', [AuthController::class, 'showLoginForm']);
 Route::post('/users', [AuthController::class, 'login']);
+
+
+
+
+
+
+
+
+
+
+Route::post('/activo', [ActivoController::class, 'store']);
+Route::get('/activo', [ActivoController::class, 'index']);
+Route::put('/activo', [ActivoController::class, 'update']);
+Route::get('/activo-desactivar', [ActivoController::class, 'desactivar']);
+
 // Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/login', 'Auth\LoginController@login')->name('login');
 // Route::get('/main', [AuthController::class, 'showLoginForm']);
@@ -52,6 +68,13 @@ Route::get('/admin/categoria', function () {
 
 Route::get('/admin/almacen', function () {
     return view('views-admin.almacen');
+});
+
+Route::get('/admin/activos', function () {
+    return view('views-admin.activos');
+});
+Route::get('/admin/insumos', function () {
+    return view('views-admin.insumos');
 });
 
 

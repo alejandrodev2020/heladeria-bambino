@@ -15,7 +15,9 @@ class ActivoController extends Controller
     public function index(Request $request)
     {
         $activos = Activo::select('id_activos', 'nombres', 'cantidad', 'precio', 'estado')
-                          ->orderBy('id_activos', 'desc')->paginate(10);
+                          ->orderBy('id_activos', 'desc')
+                          ->where('estado','=',1)
+                          ->paginate(1000);
 
         return [
             'pagination' => [
@@ -103,18 +105,18 @@ class ActivoController extends Controller
     
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $activo = new Activo();
         $activo->nombres = $request->nombres;
         $activo->precio = $request->precio;
         $activo->cantidad = $request->cantidad;
+        $activo->estado = '1';
         $activo->created_at = $currentTime = Carbon::now();
         $activo->updated_at = $currentTime = Carbon::now();
         $activo->save();
+        return ['activos' => "ok"];
     }
     public function update(Request $request)
-    {
-        if (!$request->ajax()) return redirect('/');
+    {  
         $activo = Activo::findOrFail($request->id_activos);
         $activo->nombres = $request->nombres;
         $activo->precio = $request->precio;
@@ -122,16 +124,17 @@ class ActivoController extends Controller
         $activo->estado = '1';
         $activo->updated_at = $currentTime = Carbon::now();
         $activo->save();
+        return ['articulos' => "articulos"];
     }
 
     public function desactivar(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $activo = Activo::findOrFail($request->id_activos);
         $activo->estado = '0';
         $activo->save();
+        return ['articulos' => "articulos"];
     }
-
+ 
     public function activar(Request $request)
     {
         if (!$request->ajax()) return redirect('/');

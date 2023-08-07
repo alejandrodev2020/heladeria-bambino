@@ -13,7 +13,7 @@ class AuthController extends Controller
 
     public function login(Request $request){
         $this->validateLogin($request);        
-        
+        // dd($request);
        $userLogged = DB::table('usuario')
                         ->where('email','=', $request->usuario)
                         ->where('pasword','=', $request->password)
@@ -39,10 +39,6 @@ class AuthController extends Controller
             if($id_rol == 4 ){
                 return redirect('/secretary')->with(array('data' => $userLogged,'id_rol'=>$id_rol));
             }
-
-
-
-
         }
         else{
             return back()
