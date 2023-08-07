@@ -311,7 +311,7 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: '/costos',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/costos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
@@ -351,7 +351,7 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: '/activo',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -377,7 +377,7 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      url: '/activo',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -416,7 +416,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: '/activo-desactivar?id_activos='+data,
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo-desactivar?id_activos='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
