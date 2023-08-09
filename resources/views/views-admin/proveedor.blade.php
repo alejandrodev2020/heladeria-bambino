@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <script src="sweetalert2.all.min.js"></script>
-    <title>Almacen</title>
+    <title>Usuarios</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
     <meta name="description" content="" />
@@ -169,7 +169,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-10">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Gestion de Almacenes</h5>
+                          <h5 class="card-title text-primary">Gestion de Proveedores</h5>
                         </div>
                       </div>
                       <div class="col-sm-2 text-center text-sm-right">
@@ -186,7 +186,11 @@
                             <thead>
                               <tr>
                                 <th class="text-center">Id</th>
-                                <th class="text-center">Dirección</th>
+                                <th class="text-center">Nombres</th>
+                                <th class="text-center">Telefono</th>
+                                <th class="text-center">Nit</th>
+                                <th class="text-center">Ubicación</th>
+                                <th class="text-center">Pagina</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                               </tr>
@@ -212,7 +216,7 @@
                 <form action="/activo" method="POST">
                    @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Crear Almacen</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Crear Usuario</h5>
                   <button
                     type="button"
                     id="closeModalCreate"
@@ -226,8 +230,44 @@
                   <div class="row">
                     <div class="col mb-3">
                       <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                      <label for="direccion" class="form-label">Dirección</label>
-                      <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingresar Nombre" />
+                      <label for="nombre" class="form-label">Nombre</label>
+                      <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="apellido" class="form-label">Apellido</label>
+                      <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="ci" class="form-label">C.I.</label>
+                      <input type="text" id="ci" name="ci" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="text" id="email" name="email" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="password" class="form-label">Contraseña</label>
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="id_rol" class="form-label">Rol</label>
+                      <select class="form-select" id="id_rol" name="id_rol" aria-label="Default select example">
+                        <option selected>Seleccione un Rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Secretaria</option>
+                        <option value="3">Jefe de Produccion</option>
+                        <option value="4">Ayudante de Produccion</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -247,10 +287,10 @@
           <div class="modal fade" id="basicModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form>
+                <form action="/activo" method="POST">
                   @method('PUT')  @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Almacen</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Activo</h5>
                   <button
                     type="button"
                     id="closeModalEdit"
@@ -261,11 +301,65 @@
                 </div>
                 <div class="modal-body">
                   
+                  {{-- <div class="row">
+                    <div class="col mb-3">
+                      <label for="nombres" class="form-label">Nombre</label>
+                      <input type="hidden" id="id_activos2" name="id_activos2" class="form-control" placeholder="Ingresar Nombre" />
+                      <input type="text" id="nombres2" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row g-2">
+                    <div class="col mb-0">
+                      <label for="cantidad" class="form-label">Cantidad</label>
+                      <input type="number" id="cantidad2" name="cantidad" class="form-control" placeholder="Ingresar Cantidad" />
+                    </div>
+                    <div class="col mb-0">
+                      <label for="precio" class="form-label">Precio</label>
+                      <input type="number" id="precio2" name="precio" class="form-control" placeholder="Ingresar Precio" />
+                    </div>
+                  </div> --}}
                   <div class="row">
                     <div class="col mb-3">
-                      <label for="nombres" class="form-label">Descripcion</label>
-                      <input type="hidden" id="id_activos2" name="id_activos2" class="form-control" placeholder="Ingresar Nombre" />
-                      <input type="text" id="direccion2" name="direccion2" class="form-control" placeholder="Ingresar Descripcion" />
+                      <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                      <input type="hidden" id="id_usuario2" name="id_usuario2" class="form-control" placeholder="Ingresar Nombre" />
+                      <label for="nombre2" class="form-label">Nombre</label>
+                      <input type="text" id="nombre2" name="nombre2" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="apellido2" class="form-label">Apellido</label>
+                      <input type="text" id="apellido2" name="apellido2" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="ci2" class="form-label">C.I.</label>
+                      <input type="text" id="ci2" name="ci2" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="email2" class="form-label">Email</label>
+                      <input type="text" id="email2" name="email2" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="password2" class="form-label">Contraseña</label>
+                      <input type="password" id="password2" name="password2" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="id_rol" class="form-label">Rol</label>
+                      <select class="form-select" id="id_rol2" name="id_rol2" aria-label="Default select example">
+                        <option selected>Seleccione un Rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Secretaria</option>
+                        <option value="3">Jefe de Produccion</option>
+                        <option value="4">Ayudante de Produccion</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -289,22 +383,26 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/proveedor',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.almacen.data;
+                        let list = response.proveedor.data;
                         listadoActivos = list;
                         let myarray2 = [];
 
                         for (let index = 0; index < list.length; index++) {
                           let element = list[index];
-                          let tmp = '<td>'+element.id_almacen+'</td>'
-                                   +'<td>'+element.direccion+'</td>'
+                          let tmp = '<td>'+element.id_proveedor+'</td>'
+                                   +'<td>'+element.nombre+'</td>'
+                                   +'<td>'+element.telefono+'</td>'
+                                   +'<td>'+element.nit+'</td>'
+                                   +'<td>'+element.ubicacion+'</td>'
+                                   +'<td>'+element.pagina_web+'</td>'
                                    +'<td><span class="badge bg-label-primary me-1">Activo</span></td>'
-                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_almacen+')"></i>'
-                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_almacen+')"></i>'
+                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_proveedor+')"></i>'
+                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_proveedor+')"></i>'
                                    +'</td>';
 
 
@@ -327,15 +425,25 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/publicusuario',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'direccion':document.getElementById("direccion").value, 
+                              'nombre':document.getElementById("nombre").value, 
+                              'apellido':document.getElementById("apellido").value,
+                              'ci':document.getElementById("ci").value,
+                              'email':document.getElementById("email").value,
+                              'password':document.getElementById("password").value,
+                              'id_rol':document.getElementById("id_rol").value,
                             },
                       success: function(response)
                       {  
-                        document.getElementById("direccion").value = '';
+                        document.getElementById("nombre").value = '';
+                        document.getElementById("apellido").value = '';
+                        document.getElementById("ci").value = '';
+                        document.getElementById("email").value = '';
+                        document.getElementById("password").value = '';
+                        document.getElementById("id_rol").value = '';
                         listarActivos();
                         document.getElementById("closeModalCreate").click();
                         
@@ -349,17 +457,28 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/publicusuario',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                      data: {  "_token": $('#token').val(),  
-                              'id_almacen':document.getElementById("id_activos2").value, 
-                              'direccion':document.getElementById("direccion2").value, 
+                      data: { 
+                              "_token": $('#token').val(),  
+                              'id_usuario':document.getElementById("id_usuario2").value, 
+                              'nombre':document.getElementById("nombre2").value, 
+                              'apellido':document.getElementById("apellido2").value,
+                              'ci':document.getElementById("ci2").value,
+                              'email':document.getElementById("email2").value,
+                              'password':document.getElementById("password2").value,
+                              'id_rol':document.getElementById("id_rol2").value,
                             },
                       success: function(response)
-                      {
-                        document.getElementById("id_activos2").value = '';
-                        document.getElementById("direccion2").value = '';
+                      {  
+                        document.getElementById("id_usuario2").value = '';
+                        document.getElementById("nombre2").value = '';
+                        document.getElementById("apellido2").value = '';
+                        document.getElementById("ci2").value = '';
+                        document.getElementById("email2").value = '';
+                        document.getElementById("password2").value = '';
+                        document.getElementById("id_rol2").value = '';
                         listarActivos();
                         document.getElementById("closeModalEdit").click();
                         
@@ -385,11 +504,12 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen-desactivar?id_almacen='+data,
+                      https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/publicusuario-desactivar?id_usuario='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
+                       
                         listarActivos();
                       },
 
@@ -408,9 +528,14 @@
             }
             function EditarActivo(id_activos){
               let tm = listadoActivos;
-                 let activoActual = tm.find((ele)=>ele.id_almacen === id_activos);
-                 document.getElementById("id_activos2").value = activoActual.id_almacen;
-                 document.getElementById("direccion2").value = activoActual.direccion;
+                 let activoActual = tm.find((ele)=>ele.id_usuario === id_activos);
+                 document.getElementById("id_usuario2").value = activoActual.id_usuario;
+                 document.getElementById("nombre2").value = activoActual.nombre;
+                 document.getElementById("apellido2").value = activoActual.apellido;
+                 document.getElementById("ci2").value = activoActual.ci;
+                 document.getElementById("email2").value = activoActual.email;
+                 document.getElementById("password2").value = activoActual.password;
+                 document.getElementById("id_rol2").value = activoActual.id_rol;
                 document.getElementById("actualizarBtn").click();
             }
           </script>

@@ -10,7 +10,7 @@ class TipoInventarioController extends Controller
     public function index(Request $request)
     {
         $tipo_inventario = TipoInventario::select('id_tipo_inventario', 'nombre','estado')
-                          ->orderBy('id_tipo_inventario', 'desc')->paginate(10);
+                          ->orderBy('id_tipo_inventario', 'desc')->paginate(1000);
 
         return [
             'pagination' => [

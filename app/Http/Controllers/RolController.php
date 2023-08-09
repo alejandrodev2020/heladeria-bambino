@@ -9,17 +9,10 @@ class RolController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-        
-        if ($buscar==''){
-            $roles = Rol::orderBy('id', 'asc')->paginate(10);
-        }
-        else{
-            $roles = Rol::where($criterio, 'like', '%'. $buscar . '%')->orderBy('id', 'asc')->paginate(10);
-        }
+        $roles = Rol::select('id_rol','nombre','sueldo_hora','estado')
+                    ->orderBy('id_rol', 'desc')
+                    ->where('estado','=',1)
+                    ->paginate(1000);
         
 
         return [

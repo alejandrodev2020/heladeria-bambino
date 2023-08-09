@@ -10,8 +10,9 @@ class UsuarioController extends Controller
 {
     public function index(Request $request)
     {
-        $usuarios = Usuario::select('id_usuario', 'nombre', 'apellido', 'ci', 'email', 'pasword', 'estado', 'id_rol')
-                        ->where('id_rol','=',2)
+        $usuarios = Usuario::join('rol','usuario.id_rol','=','rol.id_rol')
+                        ->select('id_usuario', 'usuario.nombre', 'apellido', 'ci', 'email', 'pasword', 'usuario.estado', 'rol.id_rol','rol.nombre as nombre_rol')
+                        ->where('usuario.estado','=',1)
                         ->orderBy('id_usuario', 'desc')->paginate(10);
         return [
                 'pagination' => [
@@ -99,38 +100,36 @@ class UsuarioController extends Controller
     
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $insumo = new Insumo();
-        $insumo->id_categoria = $request->id_categoria;
-        $insumo->id_almacen = $request->id_almacen;
-        $insumo->cantidad = $request->cantidad;
-        $insumo->nombre = $request->nombre;
-        $insumo->codigo = $request->codigo;
-        $insumo->medida = $request->medida;
-        $insumo->precio = $request->precio;
-        $insumo->estado = true;
-        $insumo->save();
+        $usuario = new Usuario();
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->ci = $request->ci;
+        $usuario->email = $request->email;
+        $usuario->pasword = $request->password;
+        $usuario->estado = 1;
+        $usuario->id_rol = $request->id_rol;
+        $usuario->save();
     }
     public function update(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $insumo = Insumo::findOrFail($request->id_insumo);
-        $insumo->id_categoria = $request->id_categoria;
-        $insumo->id_almacen = $request->id_almacen;
-        $insumo->cantidad = $request->cantidad;
-        $insumo->nombre = $request->nombre;
-        $insumo->codigo = $request->codigo;
-        $insumo->medida = $request->medida;
-        $insumo->precio = $request->precio;
-        $insumo->save();
+
+        $usuario = Usuario::findOrFail($request->id_usuario);
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->ci = $request->ci;
+        $usuario->email = $request->email;
+        $usuario->pasword = $request->password;
+        $usuario->estado = 1;
+        $usuario->id_rol = $request->id_rol;
+        $usuario->save();
+        return ['usuario' => "Ok"];
     }
 
     public function desactivar(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $insumo = Insumo::findOrFail($request->id_insumo);
-        $insumo->estado = false;
-        $insumo->save();
+        $usuario = Usuario::findOrFail($request->id_usuario);
+        $usuario->estado = false;
+        $usuario->save();
     }
 
     public function activar(Request $request)

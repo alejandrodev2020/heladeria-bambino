@@ -98,6 +98,11 @@
               <div data-i18n="Container">Gestion de Inventarios</div>
             </a>
           </li>
+          <li class="menu-item">
+            <a href="{{ url('admin/tipo-inventario')}}" class="menu-link">
+              <div data-i18n="Container">Gestion de Tipos de inventario</div>
+            </a>
+          </li>
         </ul>
       </li>
       <li class="menu-item">
@@ -117,7 +122,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="pages-account-settings-connections.html" class="menu-link">
+            <a  href="{{ url('admin/almacen')}}" class="menu-link">
               <div data-i18n="Connections">Gestionar Almacenes</div>
             </a>
           </li>
@@ -149,18 +154,13 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="ui-accordion.html" class="menu-link">
+            <a href="{{ url('admin/usuario')}}" class="menu-link">
               <div data-i18n="Accordion">Gestion Usuarios</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="ui-alerts.html" class="menu-link">
+            <a href="admin/roles" class="menu-link">
               <div data-i18n="Alerts">Gestion Roles</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="ui-badges.html" class="menu-link">
-              <div data-i18n="Badges">Gestion Permisos</div>
             </a>
           </li>
         </ul>
@@ -177,7 +177,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="extended-ui-text-divider.html" class="menu-link">
+            <a  href="{{ url('admin/proveedor')}}" class="menu-link">
               <div data-i18n="Text Divider">Gestion de Proveedores</div>
             </a>
           </li>

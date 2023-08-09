@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <script src="sweetalert2.all.min.js"></script>
-    <title>Almacen</title>
+    <title>Roles</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
     <meta name="description" content="" />
@@ -169,12 +169,12 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-10">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Gestion de Almacenes</h5>
+                          <h5 class="card-title text-primary">Gestion de Roles</h5>
                         </div>
                       </div>
                       <div class="col-sm-2 text-center text-sm-right">
                         <div class="card-body">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">Nuevo</button>
+                            <button type="button" class="btn btn-primary" style="background: #696cff; color:#807979 " data-bs-toggle="modal" data-bs-target="#basicModal" disabled>Nuevo</button>
                             <button style="display: none" id="actualizarBtn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal2">Nuevo</button>
                         </div>
                       </div>
@@ -186,7 +186,8 @@
                             <thead>
                               <tr>
                                 <th class="text-center">Id</th>
-                                <th class="text-center">Dirección</th>
+                                <th class="text-center">Nombres</th>
+                                <th class="text-center">Sueldo/Hora</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                               </tr>
@@ -212,7 +213,7 @@
                 <form action="/activo" method="POST">
                    @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Crear Almacen</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Crear Producto</h5>
                   <button
                     type="button"
                     id="closeModalCreate"
@@ -226,8 +227,15 @@
                   <div class="row">
                     <div class="col mb-3">
                       <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                      <label for="direccion" class="form-label">Dirección</label>
-                      <input type="text" id="direccion" name="direccion" class="form-control" placeholder="Ingresar Nombre" />
+                      <label for="nombres" class="form-label">Nombre</label>
+                      <input type="text" id="nombres" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                  
+                    <div class="col mb-3">
+                      <label for="precio" class="form-label">Precio</label>
+                      <input type="number" id="precio" name="precio" class="form-control" placeholder="Ingresar Precio" />
                     </div>
                   </div>
                 </div>
@@ -247,10 +255,10 @@
           <div class="modal fade" id="basicModal2" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form>
+                <form action="/activo" method="POST">
                   @method('PUT')  @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Almacen</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Activo</h5>
                   <button
                     type="button"
                     id="closeModalEdit"
@@ -263,9 +271,15 @@
                   
                   <div class="row">
                     <div class="col mb-3">
-                      <label for="nombres" class="form-label">Descripcion</label>
+                      <label for="nombres" class="form-label">Nombre</label>
                       <input type="hidden" id="id_activos2" name="id_activos2" class="form-control" placeholder="Ingresar Nombre" />
-                      <input type="text" id="direccion2" name="direccion2" class="form-control" placeholder="Ingresar Descripcion" />
+                      <input type="text" id="nombres2" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="precio" class="form-label">Precio</label>
+                      <input type="number" id="precio2" name="precio" class="form-control" placeholder="Ingresar Precio" />
                     </div>
                   </div>
                 </div>
@@ -289,22 +303,23 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      url: '/roles',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.almacen.data;
+                        let list = response.roles.data;
                         listadoActivos = list;
                         let myarray2 = [];
 
                         for (let index = 0; index < list.length; index++) {
                           let element = list[index];
-                          let tmp = '<td>'+element.id_almacen+'</td>'
-                                   +'<td>'+element.direccion+'</td>'
+                          let tmp = '<td>'+element.id_rol+'</td>'
+                                   +'<td>'+element.nombre+'</td>'
+                                   +'<td>'+element.sueldo_hora+'</td>'
                                    +'<td><span class="badge bg-label-primary me-1">Activo</span></td>'
-                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_almacen+')"></i>'
-                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_almacen+')"></i>'
+                                   +'<td><i class="bx bx-edit-alt me-2"></i>'
+                                       +'<i class="bx bx-trash me-2"></i>'
                                    +'</td>';
 
 
@@ -327,15 +342,17 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'direccion':document.getElementById("direccion").value, 
+                              'nombre':document.getElementById("nombres").value, 
+                              'precio':document.getElementById("precio").value
                             },
                       success: function(response)
                       {  
-                        document.getElementById("direccion").value = '';
+                        document.getElementById("nombres").value = '';
+                        document.getElementById("precio").value = '';
                         listarActivos();
                         document.getElementById("closeModalCreate").click();
                         
@@ -349,17 +366,19 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'id_almacen':document.getElementById("id_activos2").value, 
-                              'direccion':document.getElementById("direccion2").value, 
+                              'id_producto':document.getElementById("id_activos2").value, 
+                              'nombre':document.getElementById("nombres2").value, 
+                              'precio':document.getElementById("precio2").value
                             },
                       success: function(response)
-                      {
-                        document.getElementById("id_activos2").value = '';
-                        document.getElementById("direccion2").value = '';
+                      { 
+                        document.getElementById("id_activos2").value ='';
+                        document.getElementById("nombres").value = '';
+                        document.getElementById("precio2").value = '';
                         listarActivos();
                         document.getElementById("closeModalEdit").click();
                         
@@ -385,11 +404,12 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/almacen-desactivar?id_almacen='+data,
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos-desactivar?id_producto='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
+                       
                         listarActivos();
                       },
 
@@ -408,9 +428,10 @@
             }
             function EditarActivo(id_activos){
               let tm = listadoActivos;
-                 let activoActual = tm.find((ele)=>ele.id_almacen === id_activos);
-                 document.getElementById("id_activos2").value = activoActual.id_almacen;
-                 document.getElementById("direccion2").value = activoActual.direccion;
+                 let activoActual = tm.find((ele)=>ele.id_producto === id_activos);
+                 document.getElementById("id_activos2").value = activoActual.id_producto;
+                 document.getElementById("nombres2").value = activoActual.nombre;
+                 document.getElementById("precio2").value = activoActual.precio;
                 document.getElementById("actualizarBtn").click();
             }
           </script>

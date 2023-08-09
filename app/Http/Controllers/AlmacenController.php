@@ -17,7 +17,9 @@ class AlmacenController extends Controller
     public function index(Request $request)
     {
         $almacen = Almacen::select('id_almacen', 'direccion', 'estado')
-                        ->orderBy('id_almacen', 'desc')->paginate(10);
+                        ->where('estado','=',1)
+                        ->orderBy('id_almacen', 'desc')
+                        ->paginate(10);
         return [
                 'pagination' => [
                 'total'        => $almacen->total(),
@@ -46,7 +48,6 @@ class AlmacenController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $almacen = new Almacen();
         $almacen->direccion = $request->direccion;
         $almacen->estado = '1';
@@ -63,18 +64,18 @@ class AlmacenController extends Controller
      */
     public function update(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $almacen = Almacen::findOrFail($request->id_almacen);
         $almacen->direccion = $request->direccion;
         $almacen->save();
+        return ['almacen' => "Ok"];
     }
 
     public function desactivar(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $almacen = Almacen::findOrFail($request->id_almacen);
-        $almacen->estado = '0';
+        $almacen->estado = 0;
         $almacen->save();
+        return ['almacen' => "Ok"];
     }
 
     public function activar(Request $request)

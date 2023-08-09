@@ -6,6 +6,11 @@ use App\Http\Controllers\ActivoController;
 use App\Http\Controllers\CostosController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\TipoInventarioController;
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\AlmacenController;
+use App\Http\Controllers\ProveedorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +61,34 @@ Route::post('/categoria', [CategoriaController::class, 'store']);
 Route::put('/categoria', [CategoriaController::class, 'update']);
 Route::get('/categoria-desactivar', [CategoriaController::class, 'desactivar']);
 
+Route::get('/roles', [RolController::class, 'index']);
+Route::post('/roles', [RolController::class, 'store']);
+Route::put('/roles', [RolController::class, 'update']);
+Route::get('/roles-desactivar', [RolController::class, 'desactivar']);
+
+Route::get('/tipo-inventario', [TipoInventarioController::class, 'index']);
+Route::post('/tipo-inventario', [TipoInventarioController::class, 'store']);
+Route::put('/tipo-inventario', [TipoInventarioController::class, 'update']);
+Route::get('/tipo-inventario-desactivar', [TipoInventarioController::class, 'desactivar']);
+
+Route::get('/usuario', [UsuarioController::class, 'index']);
+Route::post('/usuario', [UsuarioController::class, 'store']);
+Route::put('/usuario', [UsuarioController::class, 'update']);
+Route::get('/usuario-desactivar', [UsuarioController::class, 'desactivar']);
+
+
+Route::get('/almacen', [AlmacenController::class, 'index']);
+Route::post('/almacen', [AlmacenController::class, 'store']);
+Route::put('/almacen', [AlmacenController::class, 'update']);
+Route::get('/almacen-desactivar', [AlmacenController::class, 'desactivar']);
+
+Route::get('/proveedor', [ProveedorController::class, 'index']);
+Route::post('/proveedor', [ProveedorController::class, 'store']);
+Route::put('/proveedor', [ProveedorController::class, 'update']);
+Route::get('/proveedor-desactivar', [ProveedorController::class, 'desactivar']);
+
+
+
 // Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/login', 'Auth\LoginController@login')->name('login');
 // Route::get('/main', [AuthController::class, 'showLoginForm']);
@@ -103,6 +136,26 @@ Route::get('/admin/productos', function () {
 
 Route::get('/admin/categoria', function () {
     return view('views-admin.categoria');
+});
+
+Route::get('/admin/roles', function () {
+    return view('views-admin.roles');
+});
+
+Route::get('/admin/tipo-inventario', function () {
+    return view('views-admin.tipo-inventario');
+});
+
+Route::get('/admin/usuario', function () {
+    return view('views-admin.usuario');
+});
+
+Route::get('/admin/almacen', function () {
+    return view('views-admin.almacen');
+});
+
+Route::get('/admin/proveedor', function () {
+    return view('views-admin.proveedor');
 });
 
 
