@@ -11,6 +11,7 @@ use App\Http\Controllers\TipoInventarioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\InventarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -87,6 +88,11 @@ Route::post('/proveedor', [ProveedorController::class, 'store']);
 Route::put('/proveedor', [ProveedorController::class, 'update']);
 Route::get('/proveedor-desactivar', [ProveedorController::class, 'desactivar']);
 
+Route::get('/inventario', [InventarioController::class, 'index']);
+Route::post('/inventario', [InventarioController::class, 'store']);
+Route::put('/inventario', [InventarioController::class, 'update']);
+Route::get('/inventario-desactivar', [InventarioController::class, 'desactivar']);
+
 
 
 // Route::post('/login', [AuthController::class, 'login']);
@@ -156,6 +162,10 @@ Route::get('/admin/almacen', function () {
 
 Route::get('/admin/proveedor', function () {
     return view('views-admin.proveedor');
+});
+
+Route::get('/admin/inventarios', function () {
+    return view('views-admin.inventarios');
 });
 
 

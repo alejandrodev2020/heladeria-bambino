@@ -186,9 +186,10 @@
                             <thead>
                               <tr>
                                 <th class="text-center">Id</th>
-                                <th class="text-center">Nombres</th>
-                                <th class="text-center">Cantidad</th>
-                                <th class="text-center">Precio</th>
+                                <th class="text-center">Costos Operativos</th>
+                                <th class="text-center">Costos Brutos</th>
+                                <th class="text-center">Fecha</th>
+                                <th class="text-center">Producto</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                               </tr>
@@ -214,7 +215,7 @@
                 <form action="/activo" method="POST">
                    @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Crear Activo</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Crear Costo</h5>
                   <button
                     type="button"
                     id="closeModalCreate"
@@ -228,18 +229,28 @@
                   <div class="row">
                     <div class="col mb-3">
                       <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                      <label for="nombres" class="form-label">Nombre</label>
-                      <input type="text" id="nombres" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
+                      <label for="costos_operativos" class="form-label">Costos Operativos</label>
+                      <input type="text" id="costos_operativos" name="costos_operativos" class="form-control" placeholder="Ingresar Costos Operativos" />
                     </div>
                   </div>
-                  <div class="row g-2">
+                  <div class="row ">
                     <div class="col mb-0">
-                      <label for="cantidad" class="form-label">Cantidad</label>
-                      <input type="number" id="cantidad" name="cantidad" class="form-control" placeholder="Ingresar Cantidad" />
+                      <label for="costos_brutos" class="form-label">Costos Brutos</label>
+                      <input type="number" id="costos_brutos" name="costos_brutos" class="form-control" placeholder="Ingresar Costos Brutos" />
                     </div>
+                  </div>
+                  <div class="row">
                     <div class="col mb-0">
-                      <label for="precio" class="form-label">Precio</label>
-                      <input type="number" id="precio" name="precio" class="form-control" placeholder="Ingresar Precio" />
+                      <label for="fecha" class="form-label">Fecha</label>
+                      <input type="date" id="fecha" name="fecha" class="form-control" placeholder="Ingresar Fecha" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="id_producto" class="form-label">Producto</label>
+                      <select class="form-select" id="id_producto" name="id_producto" aria-label="Default select example">
+                        <option  selected>Seleccione un producto</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -275,19 +286,29 @@
                   
                   <div class="row">
                     <div class="col mb-3">
-                      <label for="nombres" class="form-label">Nombre</label>
-                      <input type="hidden" id="id_activos2" name="id_activos2" class="form-control" placeholder="Ingresar Nombre" />
-                      <input type="text" id="nombres2" name="nombres" class="form-control" placeholder="Ingresar Nombre" />
+                      <label for="costos_operativos2" class="form-label">Costos Operativos</label>
+                      <input type="hidden" id="id_costos2" name="id_costos2" class="form-control" placeholder="Ingresar Nombre" />
+                      <input type="text" id="costos_operativos2" name="costos_operativos2" class="form-control" placeholder="Ingresar Costos Operativos" />
                     </div>
                   </div>
-                  <div class="row g-2">
+                  <div class="row ">
                     <div class="col mb-0">
-                      <label for="cantidad" class="form-label">Cantidad</label>
-                      <input type="number" id="cantidad2" name="cantidad" class="form-control" placeholder="Ingresar Cantidad" />
+                      <label for="costos_brutos2" class="form-label">Costos Brutos</label>
+                      <input type="number" id="costos_brutos2" name="costos_brutos2" class="form-control" placeholder="Ingresar Costos Brutos" />
                     </div>
+                  </div>
+                  <div class="row">
                     <div class="col mb-0">
-                      <label for="precio" class="form-label">Precio</label>
-                      <input type="number" id="precio2" name="precio" class="form-control" placeholder="Ingresar Precio" />
+                      <label for="fecha2" class="form-label">Fecha</label>
+                      <input type="date" id="fecha2" name="fecha2" class="form-control" placeholder="Ingresar Fecha" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="id_producto2" class="form-label">Producto</label>
+                      <select class="form-select" id="id_producto2" name="id_producto2" aria-label="Default select example">
+                        <option  selected>Seleccione un producto</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -304,31 +325,35 @@
             <!--===========================================MODAL1============================================================ -->
           <script>
             listarActivos();
+            listarProductos();
             var listadoActivos = [];
+            var listadoCostos = [];
             function saveData(){
                           // alert(1);
             }
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/costos',
+                      url: '/costos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.activos.data;
+                        let list = response.costos.data;
                         listadoActivos = list;
+                        listadoCostos = list;
                         let myarray2 = [];
 
                         for (let index = 0; index < list.length; index++) {
                           let element = list[index];
-                          let tmp = '<td>'+element.id_activos+'</td>'
-                                   +'<td>'+element.nombres+'</td>'
-                                   +'<td>'+element.cantidad+'</td>'
-                                   +'<td>'+element.precio+'</td>'
+                          let tmp = '<td>'+element.id_costos+'</td>'
+                                   +'<td>'+element.costos_operativos+'</td>'
+                                   +'<td>'+element.costos_brutos+'</td>'
+                                   +'<td>'+element.fecha+'</td>'
+                                   +'<td>'+element.nombre_producto+'</td>'
                                    +'<td><span class="badge bg-label-primary me-1">Activo</span></td>'
-                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_activos+')"></i>'
-                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_activos+')"></i>'
+                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_costos+')"></i>'
+                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_costos+')"></i>'
                                    +'</td>';
 
 
@@ -348,22 +373,52 @@
                         }
                     });
             }
+            function listarProductos(){
+              $.ajax({
+                      type: "GET",
+                      url: '/productos',
+                      headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
+                      data: $(this).serialize(),
+                      success: function(response)
+                      {
+                        let list = response.productos.data;
+                        listadoActivos = list;
+                        let myarray2 = [];
+
+                        for (let index = 0; index < list.length; index++) {
+                          let element = list[index];
+                          optText = element.nombre;
+                          optValue = element.id_producto;
+                          $('#id_producto').append(`<option value="${optValue}">${optText}</option>`);
+                          $('#id_producto2').append(`<option value="${optValue}">${optText}</option>`);
+                        }
+             
+                      },
+
+                        error:function(error){
+                          console.log(e.message);
+                        }
+                    });
+            }
+
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo',
+                      url: '/costos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
-                              'nombres':document.getElementById("nombres").value, 
-                              'cantidad':document.getElementById("cantidad").value,
-                              'precio':document.getElementById("precio").value
+                              'costos_operativos':document.getElementById("costos_operativos").value, 
+                              'costos_brutos':document.getElementById("costos_brutos").value,
+                              'fecha':document.getElementById("fecha").value,
+                              'id_producto':document.getElementById("id_producto").value
                             },
                       success: function(response)
-                      {  
-                        document.getElementById("nombres").value = '';
-                        document.getElementById("cantidad").value = '';
-                        document.getElementById("precio").value = '';
+                      { 
+                        document.getElementById("costos_operativos").value ='';
+                        document.getElementById("costos_brutos").value ='';
+                        document.getElementById("fecha").value ='';
+                        document.getElementById("id_producto").value ='';
                         listarActivos();
                         document.getElementById("closeModalCreate").click();
                         
@@ -377,20 +432,24 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo',
+                      url: '/costos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                      data: {  "_token": $('#token').val(),  
-                              'id_activos':document.getElementById("id_activos2").value, 
-                              'nombres':document.getElementById("nombres2").value, 
-                              'cantidad':document.getElementById("cantidad2").value,
-                              'precio':document.getElementById("precio2").value
+                      data: { 
+                               "_token": $('#token').val(),  
+                              'id_costos':document.getElementById("id_costos2").value, 
+                              'costos_operativos':document.getElementById("costos_operativos2").value, 
+                              'costos_brutos':document.getElementById("costos_brutos2").value,
+                              'fecha':document.getElementById("fecha2").value,
+                              'id_producto':document.getElementById("id_producto2").value
                             },
                       success: function(response)
                       {  
-                        document.getElementById("nombres").value = '';
-                        document.getElementById("cantidad").value = '';
-                        document.getElementById("precio").value = '';
+                        document.getElementById("id_costos2").value = '';
+                        document.getElementById("costos_operativos2").value = '';
+                        document.getElementById("costos_brutos2").value = '';
+                        document.getElementById("fecha2").value = '';
+                        document.getElementById("id_producto2").value = '';
                         listarActivos();
                         document.getElementById("closeModalEdit").click();
                         
@@ -416,7 +475,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/activo-desactivar?id_activos='+data,
+                      url: '/costos-desactivar?id_costos='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
@@ -439,12 +498,13 @@
                 })
             }
             function EditarActivo(id_activos){
-              let tm = listadoActivos;
-                 let activoActual = tm.find((ele)=>ele.id_activos === id_activos);
-                 document.getElementById("id_activos2").value = activoActual.id_activos;
-                 document.getElementById("nombres2").value = activoActual.nombres;
-                 document.getElementById("cantidad2").value = activoActual.cantidad;
-                 document.getElementById("precio2").value = activoActual.precio;
+              let tm = listadoCostos;
+                 let activoActual = tm.find((ele)=>ele.id_costos === id_activos);
+                 document.getElementById("id_costos2").value = activoActual.id_costos;
+                 document.getElementById("costos_operativos2").value = activoActual.costos_operativos;
+                 document.getElementById("costos_brutos2").value = activoActual.costos_brutos;
+                 document.getElementById("fecha2").value = activoActual.fecha;
+                 document.getElementById("id_producto").value = activoActual.id_producto;
                 document.getElementById("actualizarBtn").click();
             }
           </script>

@@ -47,7 +47,7 @@ class ProveedorController extends Controller
 
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+       
         $proveedor = new Proveedor();
         $proveedor->nombre = $request->nombre;
         $proveedor->telefono = $request->telefono;

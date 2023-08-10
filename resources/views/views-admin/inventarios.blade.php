@@ -15,7 +15,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
     <script src="sweetalert2.all.min.js"></script>
-    <title>Usuarios</title>
+    <title>Inventario</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </head>
     <meta name="description" content="" />
@@ -169,7 +169,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-10">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Gestion de Proveedores</h5>
+                          <h5 class="card-title text-primary">Gestion de Inventarios</h5>
                         </div>
                       </div>
                       <div class="col-sm-2 text-center text-sm-right">
@@ -187,10 +187,10 @@
                               <tr>
                                 <th class="text-center">Id</th>
                                 <th class="text-center">Nombres</th>
-                                <th class="text-center">Telefono</th>
-                                <th class="text-center">Nit</th>
-                                <th class="text-center">Ubicación</th>
-                                <th class="text-center">Pagina</th>
+                                <th class="text-center">Apeliido</th>
+                                <th class="text-center">Email</th>
+                                <th class="text-center">Ci</th>
+                                <th class="text-center">Rol</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Acciones</th>
                               </tr>
@@ -213,10 +213,10 @@
           <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
-                <form >
+                <form action="/activo" method="POST">
                    @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Crear Proveedor</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Crear Usuario</h5>
                   <button
                     type="button"
                     id="closeModalCreate"
@@ -236,32 +236,38 @@
                   </div>
                   <div class="row">
                     <div class="col mb-3">
-                      <label for="telefono" class="form-label">Telefono</label>
-                      <input type="number" id="telefono" name="telefono" class="form-control" placeholder="Ingresar Telefono" />
+                      <label for="apellido" class="form-label">Apellido</label>
+                      <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Ingresar Nombre" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col mb-3">
-                      <label for="nit" class="form-label">NIT</label>
-                      <input type="number" id="nit" name="nit" class="form-control" placeholder="Ingresar Nit" />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col mb-3">
-                      <label for="ubicacion" class="form-label">ubicación</label>
-                      <input type="text" id="ubicacion" name="ubicacion" class="form-control" placeholder="Ingresar Ubicación" />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col mb-3">
-                      <label for="pagina_web" class="form-label">Pagina Web</label>
-                      <input type="text" id="pagina_web" name="pagina_web" class="form-control" placeholder="Ingresar Pagina Web" />
+                      <label for="ci" class="form-label">C.I.</label>
+                      <input type="text" id="ci" name="ci" class="form-control" placeholder="Ingresar Nombre" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col mb-3">
                       <label for="email" class="form-label">Email</label>
-                      <input type="text" id="email" name="email" class="form-control" placeholder="Ingresar Correo" />
+                      <input type="text" id="email" name="email" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-3">
+                      <label for="password" class="form-label">Contraseña</label>
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Ingresar Nombre" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col mb-0">
+                      <label for="id_rol" class="form-label">Rol</label>
+                      <select class="form-select" id="id_rol" name="id_rol" aria-label="Default select example">
+                        <option selected>Seleccione un Rol</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Secretaria</option>
+                        <option value="3">Jefe de Produccion</option>
+                        <option value="4">Ayudante de Produccion</option>
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -377,25 +383,26 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: '/proveedor',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/usuario',
+                      headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.proveedor.data;
+                        let list = response.usuarios.data;
                         listadoActivos = list;
                         let myarray2 = [];
 
                         for (let index = 0; index < list.length; index++) {
                           let element = list[index];
-                          let tmp = '<td>'+element.id_proveedor+'</td>'
+                          let tmp = '<td>'+element.id_usuario+'</td>'
                                    +'<td>'+element.nombre+'</td>'
-                                   +'<td>'+element.telefono+'</td>'
-                                   +'<td>'+element.nit+'</td>'
-                                   +'<td>'+element.ubicacion+'</td>'
-                                   +'<td>'+element.pagina_web+'</td>'
+                                   +'<td>'+element.apellido+'</td>'
+                                   +'<td>'+element.email+'</td>'
+                                   +'<td>'+element.ci+'</td>'
+                                   +'<td>'+element.nombre_rol+'</td>'
                                    +'<td><span class="badge bg-label-primary me-1">Activo</span></td>'
-                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_proveedor+')"></i>'
-                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_proveedor+')"></i>'
+                                   +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_usuario+')"></i>'
+                                       +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_usuario+')"></i>'
                                    +'</td>';
 
 
@@ -416,29 +423,27 @@
                     });
             }
             function crearActivo(){
-              debugger
               $.ajax({
                       type: "POST",
-                      https: 'proveedors',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/usuario',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                      data: { 
-                             "_token": $('#token').val(),  
+                      data: {  "_token": $('#token').val(),  
                               'nombre':document.getElementById("nombre").value, 
-                              'telefono':document.getElementById("telefono").value,
-                              'nit':document.getElementById("nit").value,
-                              'ubicacion':document.getElementById("ubicacion").value,
-                              'pagina_web':document.getElementById("pagina_web").value,
+                              'apellido':document.getElementById("apellido").value,
+                              'ci':document.getElementById("ci").value,
                               'email':document.getElementById("email").value,
+                              'password':document.getElementById("password").value,
+                              'id_rol':document.getElementById("id_rol").value,
                             },
                       success: function(response)
                       {  
                         document.getElementById("nombre").value = '';
-                        document.getElementById("telefono").value = '';
-                        document.getElementById("nit").value = '';
-                        document.getElementById("ubicacion").value = '';
-                        document.getElementById("pagina_web").value = '';
+                        document.getElementById("apellido").value = '';
+                        document.getElementById("ci").value = '';
                         document.getElementById("email").value = '';
+                        document.getElementById("password").value = '';
+                        document.getElementById("id_rol").value = '';
                         listarActivos();
                         document.getElementById("closeModalCreate").click();
                         
@@ -452,7 +457,7 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      https:'/usuario',
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/usuario',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: { 
@@ -486,7 +491,6 @@
             }            
 
             function EliminarActivo(data){
-              debugger
               let tm = listadoActivos;
               Swal.fire({
                   title: 'Seguro que quieres Eliminar?',
@@ -500,7 +504,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      https:'/usuario-desactivar?id_usuario='+data,
+                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/usuario-desactivar?id_usuario='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)

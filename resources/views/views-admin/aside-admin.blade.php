@@ -94,7 +94,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="admin/inventarios" class="menu-link">
+            <a  href="{{ url('admin/inventarios')}}" class="menu-link">
               <div data-i18n="Container">Gestion de Inventarios</div>
             </a>
           </li>
@@ -195,7 +195,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="admin/costos" class="menu-link">
+            <a href="{{ url('admin/costos')}}" class="menu-link">
               <div data-i18n="Basic Inputs">Gestion de Costos</div>
             </a>
           </li>

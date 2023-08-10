@@ -12,10 +12,11 @@ class CostosController extends Controller
 {
     public function index(Request $request)
     {
-        $activos = Costos::select('id_activos', 'nombres', 'cantidad', 'precio', 'estado')
-        ->orderBy('id_activos', 'desc')
-        ->where('estado','=',1)
-        ->paginate(1000);
+        $costos = Costos::join('producto','costos.id_producto','=','producto.id_producto')
+                        ->select('id_costos', 'costos_operativos', 'costos_brutos', 'fecha', 'costos.estado', 'producto.id_producto','producto.nombre as nombre_producto')
+                        ->orderBy('id_costos', 'desc')
+                        ->where('costos.estado','=',1)
+                        ->paginate(1000);
 
 
         return [
@@ -104,7 +105,7 @@ class CostosController extends Controller
     
     public function store(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
+        
         $costos = new Costos();
         $costos->id_producto = $request->id_producto;
         $costos->costos_operativos = $request->costos_operativos;
@@ -112,21 +113,22 @@ class CostosController extends Controller
         $costos->fecha = Carbon::now('America/Lima'); 
         $costos->estado = true;
         $costos->save();
+        return ['Costos' => "Ok"];
     }
     public function update(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $insumo = Costos::findOrFail($request->id_costos);
-        $costos->id_producto = $request->id_producto;
+        $costos = Costos::findOrFail($request->id_costos);
         $costos->costos_operativos = $request->costos_operativos;
         $costos->costos_brutos = $request->costos_brutos; 
+        $costos->id_producto = $request->id_producto;
         $costos->save();
+        return ['Costos' => "Ok"];
     }
 
     public function desactivar(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-        $insumo = Insumo::findOrFail($request->id_insumo);
+     
+        $insumo = Costos::findOrFail($request->id_costos);
         $insumo->estado = false;
         $insumo->save();
     }
