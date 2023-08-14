@@ -96,7 +96,7 @@ Route::get('/inventario-desactivar', [InventarioController::class, 'desactivar']
 
 
 // Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/login', 'Auth\LoginController@login')->name('login');
+// Route::post('/login', 'Auth\LoginController@login')->name('login');z
 // Route::get('/main', [AuthController::class, 'showLoginForm']);
 
 Route::get('/main', function () {

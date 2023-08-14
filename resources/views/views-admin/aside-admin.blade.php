@@ -84,12 +84,12 @@
 
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="admin/activos" class="menu-link">
+            <a  href="{{ url('admin/activos')}}" class="menu-link">
               <div data-i18n="Without menu">Gestion de Activos</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="admin/insumos" class="menu-link">
+            <a href="{{ url('admin/insumos')}}" class="menu-link">
               <div data-i18n="Without navbar">Gestion de insumos</div>
             </a>
           </li>
@@ -112,7 +112,7 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="admin/categoria" class="menu-link">
+            <a  href="{{ url('admin/categoria')}}" class="menu-link">
               <div data-i18n="Account">Gestionar Categorias</div>
             </a>
           </li>
