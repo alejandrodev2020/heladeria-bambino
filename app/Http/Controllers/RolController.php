@@ -9,6 +9,8 @@ class RolController extends Controller
 {
     public function index(Request $request)
     {
+          
+
         $roles = Rol::select('id_rol','nombre','sueldo_hora','estado')
                     ->orderBy('id_rol', 'desc')
                     ->where('estado','=',1)

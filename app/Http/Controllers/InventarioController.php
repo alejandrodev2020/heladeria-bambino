@@ -20,8 +20,8 @@ class InventarioController extends Controller
         $inventarios = Inventario::join('usuario','usuario.id_usuario','inventario.id_usuario')
                                 ->join('tipo_inventario','tipo_inventario.id_tipo_inventario','=','inventario.id_tipo_inventario')
                                ->select('inventario.id_inventario', 'fecha', 'inventario.estado', 'inventario.id_usuario', 'inventario.id_tipo_inventario','usuario.nombre','tipo_inventario.nombre  as tipo')
-                               ->where('usuario.id_rol','=',2)
-                              ->orderBy('inventario.id_inventario', 'desc')->paginate(10);
+                               ->where('inventario.estado','=',1)
+                              ->orderBy('inventario.id_inventario', 'desc')->paginate(10000);
         return [
                 'pagination' => [
                 'total'        => $inventarios->total(),
@@ -69,12 +69,12 @@ class InventarioController extends Controller
      */
     public function update(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
         $inventario = Inventario::findOrFail($request->id_inventario);
         $inventario->fecha = $request->fecha;
         $inventario->id_usuario = $request->id_usuario;
         $inventario->id_tipo_inventario = $request->id_tipo_inventario;
         $inventario->save();
+        return ['inventario' => "Ok"];
     }
 
     public function desactivar(Request $request)

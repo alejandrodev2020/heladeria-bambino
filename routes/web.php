@@ -95,6 +95,14 @@ Route::get('/inventario-desactivar', [InventarioController::class, 'desactivar']
 
 
 
+Route::get('/insumo', [InsumoController::class, 'index']);
+Route::post('/insumo', [InsumoController::class, 'store']);
+Route::put('/insumo', [InsumoController::class, 'update']);
+Route::get('/insumo-desactivar', [InsumoController::class, 'desactivar']);
+
+
+
+
 // Route::post('/login', [AuthController::class, 'login']);
 // Route::post('/login', 'Auth\LoginController@login')->name('login');z
 // Route::get('/main', [AuthController::class, 'showLoginForm']);
@@ -171,6 +179,10 @@ Route::get('/admin/inventarios', function () {
 
 Route::get('/admin/insumos', function () {
     return view('views-admin.insumos');
+});
+
+Route::get('/admin/insumos', function () {
+    return view('views-admin.insumos1');
 });
 
 

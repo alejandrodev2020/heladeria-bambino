@@ -169,7 +169,7 @@
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-10">
                         <div class="card-body">
-                          <h5 class="card-title text-primary">Gestion de Inventarios</h5>
+                          <h5 class="card-title text-primary">Gestion de Insumos1</h5>
                         </div>
                       </div>
                       <div class="col-sm-2 text-center text-sm-right">
@@ -328,12 +328,12 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: '/inventario',
+                      url: '/insumo',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
                       {
-                        let list = response.inventarios.data;
+                        let list = response.insumos.data;
                         listadoActivos = list;
                         let myarray2 = [];
 

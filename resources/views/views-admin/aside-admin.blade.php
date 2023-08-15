@@ -117,7 +117,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="pages-account-settings-notifications.html" class="menu-link">
+            <a href="{{ url('admin/insumos')}}" class="menu-link">
               <div data-i18n="Notifications">Gestionar Insumos</div>
             </a>
           </li>
@@ -159,7 +159,7 @@
             </a>
           </li>
           <li class="menu-item">
-            <a href="admin/roles" class="menu-link">
+            <a href="{{ url('admin/roles')}}" class="menu-link">
               <div data-i18n="Alerts">Gestion Roles</div>
             </a>
           </li>

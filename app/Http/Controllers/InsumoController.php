@@ -10,44 +10,21 @@ class InsumoController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->ajax()) return redirect('/');
-
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-  
-        if($criterio == 'limit')
-        {
-            $insumos = Articulo::join('categorias','articulos.idcategoria','=','categorias.id')
-            ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion')
-            ->where('articulos.stock', '<=','5')
-            ->orderBy('articulos.id', 'desc')->paginate(10);
-
-        }
-
-        else
-        {
-            if ($buscar==''){
-                $insumos = Insumo::join('categoria','insumo.id_categoria','=','categoria.id_categoria')
-                ->select('insumo.id_insumo','insumo.id_categoria','insumo.codigo','insumo.nombre','categoria.nombre as nombre_categoria','insumo.precio','insumo.cantidad','insumo.estado','insumo.id_almacen')
-                ->orderBy('insumo.id_insumo', 'desc')->paginate(10);
-            }
-            else{
-                $insumos = Insumo::join('categoria','insumo.id_categoria','=','categoria.id_categoria')
-                ->select('articulos.id','articulos.idcategoria','articulos.codigo','articulos.nombre','categorias.nombre as nombre_categoria','articulos.precio_venta','articulos.stock','articulos.descripcion','articulos.condicion','insumo.id_almacen')
-                ->where('articulos.'.$criterio, 'like', '%'. $buscar . '%')
-                ->orderBy('articulos.id', 'desc')->paginate(10);
-            }
-        }
+        $insumo = Insumo::join('usuario','usuario.id_usuario','inventario.id_usuario')
+                        ->join('tipo_inventario','tipo_inventario.id_tipo_inventario','=','inventario.id_tipo_inventario')
+                      ->select('inventario.id_inventario', 'fecha', 'inventario.estado', 'inventario.id_usuario', 'inventario.id_tipo_inventario','usuario.nombre','tipo_inventario.nombre  as tipo')
+                       ->where('inventario.estado','=',1)
+                      >orderBy('inventario.id_inventario', 'desc')->paginate(10000);
         return [
-            'pagination' => [
-                'total'        => $insumos->total(),
-                'current_page' => $insumos->currentPage(),
-                'per_page'     => $insumos->perPage(),
-                'last_page'    => $insumos->lastPage(),
-                'from'         => $insumos->firstItem(),
-                'to'           => $insumos->lastItem(),
-            ],
-            'insumos' => $insumos
+                'pagination' => [
+                'total'        => $insumo->total(),
+                'current_page' => $insumo->currentPage(),
+                'per_page'     => $insumo->perPage(),
+                'last_page'    => $insumo->lastPage(),
+                'from'         => $insumo->firstItem(),
+                'to'           => $insumo->lastItem(),
+                ],
+        'insumo' => $insumo
         ];
     }
 
