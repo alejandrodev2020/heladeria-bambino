@@ -12,6 +12,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\InventarioController;
+use App\Http\Controllers\FormulaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -101,6 +102,12 @@ Route::put('/insumo', [InsumoController::class, 'update']);
 Route::get('/insumo-desactivar', [InsumoController::class, 'desactivar']);
 
 
+Route::get('/formula', [FormulaController::class, 'index']);
+Route::post('/formula', [FormulaController::class, 'store']);
+Route::put('/formula', [FormulaController::class, 'update']);
+Route::get('/formula-desactivar', [FormulaController::class, 'desactivar']);
+
+
 
 
 // Route::post('/login', [AuthController::class, 'login']);
@@ -179,6 +186,10 @@ Route::get('/admin/inventarios', function () {
 
 Route::get('/admin/insumos', function () {
     return view('views-admin.insumos');
+});
+
+Route::get('/admin/formula', function () {
+    return view('views-admin.formula');
 });
 
 Route::get('/admin/insumos', function () {

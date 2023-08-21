@@ -302,7 +302,7 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/tipo-inventario',
+                      url: '/tipo-inventario',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
@@ -340,7 +340,7 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos',
+                      url: '/productos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -364,7 +364,7 @@
             function EditarActivo2(){
               $.ajax({
                       type: "PUT",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos',
+                      url: '/productos',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -402,7 +402,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/productos-desactivar?id_producto='+data,
+                      url: '/productos-desactivar?id_producto='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)

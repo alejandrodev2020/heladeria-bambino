@@ -257,7 +257,7 @@
                 <form action="/activo" method="POST">
                   @method('PUT')  @csrf   
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Activo</h5>
+                  <h5 class="modal-title" id="exampleModalLabel1">Actualizar Categoria</h5>
                   <button
                     type="button"
                     id="closeModalEdit"
@@ -302,7 +302,7 @@
             function listarActivos(){
               $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/categoria',
+                      url: '/categoria',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
@@ -320,7 +320,6 @@
                                    +'<td><i class="bx bx-edit-alt me-2" onclick="EditarActivo('+element.id_categoria+')"></i>'
                                        +'<i class="bx bx-trash me-2" onclick="EliminarActivo('+element.id_categoria+')"></i>'
                                    +'</td>';
-
 
                           myarray2.push(tmp);
                         }
@@ -341,7 +340,7 @@
             function crearActivo(){
               $.ajax({
                       type: "POST",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/categoria',
+                      url: '/categoria',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -366,7 +365,7 @@
                  
               $.ajax({
                       type: "PUT",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/categoria',
+                      url: '/categoria',
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx',
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                       data: {  "_token": $('#token').val(),  
@@ -404,7 +403,7 @@
                   if (result.isConfirmed) {
                     $.ajax({
                       type: "GET",
-                      url: 'https://www.tecnoweb.org.bo/inf513/grupo07sa/heladeria-bambino/public/categoria-desactivar?id_categoria='+data,
+                      url: '/categoria-desactivar?id_categoria='+data,
                       headers: {'Authorization': 'Bearer xxxxxxxxxxxxx'},
                       data: $(this).serialize(),
                       success: function(response)
